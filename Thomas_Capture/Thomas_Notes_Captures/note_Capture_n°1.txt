@@ -1,0 +1,26 @@
+
+======DNS=======
+
+dans la frame 239 il y a la requête DNS pour screego la demande et a paquet 242 il y a la réponse
+
+dans la frame 245 il y a peut être la demande pour la connexion à la room
+
+
+
+
+=====QUIC=======
+
+
+
+
+======TCP=======
+
+
+
+
+
+
+=====IPV6=======
+
+2600:1901:0:38d7::  == google.cloud https://dnschecker.org/ipv6-whois-lookup.php kansas city
+
