@@ -1,7 +1,48 @@
+====scénario n°1=======
+ouvrir screego.net avec firefox et lancer une room;
+bien sûr je suis dans la room.
+
+
+
+donc il faut analsyer comment le dns a été effectuer , quels sont les paquets qui ont été envoyé. que s est il passé quand j'ai ouvert firefox , expliquer ce qu'il s est passé quand j'ai accéder à screego.net
+
+
+
+
+
+
+====couche réseau====
+
+[Sachant que les applications à analyser sont plus orientées peer-to-peer plutôt
+que dans le schéma classique client-serveur, quelles méthodes sont utilisées pour mettre
+en relation les deux clients (i.e., peers)]
 
 ======DNS=======
 
-dans la frame 239 il y a la requête DNS pour screego la demande et a paquet 242 il y a la réponse
+[Observez-vous des comportements DNS inattendus?,Types de requêtes dns ? , les entreprises qui gèrent les serveurs ? , utilise t on bcp de dns ? ]
+
+paquet: 283 :
+Authoritative nameservers
+    screego.net: type SOA, class IN, mname curitiba.ns.porkbun.com
+        Name: screego.net
+        Type: SOA (6) (Start Of a zone of Authority)
+        Class: IN (0x0001)
+        Time to live: 1800 (30 minutes)
+        Data length: 62
+        Primary name server: curitiba.ns.porkbun.com
+        Responsible authority's mailbox: dns.cloudflare.com
+        Serial Number: 2353029128
+        Refresh Interval: 10000 (2 hours, 46 minutes, 40 seconds)
+        Retry Interval: 2400 (40 minutes)
+        Expire limit: 604800 (7 days)
+        Minimum TTL: 1800 (30 minutes)
+
+
+
+
+
+
+dans la frame 239 il y a la requête DNS pour screego la demande et au paquet 242 il y a la réponse
 
 dans la frame 245 il y a peut être la demande pour la connexion à la room
 
@@ -11,16 +52,38 @@ dans la frame 245 il y a peut être la demande pour la connexion à la room
 =====QUIC=======
 
 
+remplacement de tcp (il est utilisé dans http/3) :
+
+quic est comme tcp mais il ajoute de nouvelles fonctionnalités : réémission des paquets perdus  , un chiffrement complet , il y a un handshake TLS plus rapide (6 messages -> 3 messages) , quic est encapsulé dans UDP
+permet la connexion multiplexage.il y a un marque de séquences uniques ce qui permet d'être plus précis dans le rtt.
+
+PACKAGE FEC : correction d'erreur directe
+
+MITM : l'en tête du paquet envoyé est en texte brut sans authentification préalable.avec quic ils sont toujours authentifiés et largement chiffrés.
+
+
+
+
+
 
 
 ======TCP=======
 
 
+=====ipv4======
 
-
+ip.addr == 162.159.130.234 // :CloudFlare Inc. Services:Datacenter  Country:United States   State/Region:California    City:San Francisco
 
 
 =====IPV6=======
 
 2600:1901:0:38d7::  == google.cloud https://dnschecker.org/ipv6-whois-lookup.php kansas city
 
+
+
+====CHIFFREMENT ET SÉCURITÉ====
+
+
+
+
+====couches de transports=====
