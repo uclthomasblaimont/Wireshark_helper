@@ -1,0 +1,36 @@
+Introduction et Méthodologie
+
+Contexte : présentation de Screego et objectifs de l’analyse
+Méthodologie rapide : scénarios de test, outils (Wireshark/tcpdump) et environnement de capture isolé
+Observations Clés
+
+DNS & Couche Réseau :
+• Résolution des noms et serveurs autoritatifs
+• Techniques de traversée NAT et communication peer-to-peer
+Couche Transport & Sécurité :
+• Protocoles utilisés (TCP/UDP/QUIC) et gestion des connexions
+• Chiffrement (TLS ou méthode ad hoc) et sécurisation du trafic
+Conclusion et Perspectives
+
+Synthèse rapide des points forts et limites observés
+Impact sur la performance de l’application (qualité vidéo, débit, etc.)
+Pistes d’amélioration ou questions ouvertes pour approfondir l’analyse
+
+
+
+
+Introduction :
+explications des différents scénari.
+
+
+
+DNS & Couches Réseau:
+
+Plan du DNS ? NSLOOKUP ? comportement du dns ?
+STUN/TURN ?
+
+
+Couches Transport & Sécurité :
+
+TCP UDP QUIC RTCP
+

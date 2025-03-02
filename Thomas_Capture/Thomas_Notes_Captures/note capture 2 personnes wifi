@@ -1,0 +1,20 @@
+captures :
+
+dans le paquet 45 : Allocate Request : STUN
+
+Ce paquet est une demande d'allocation envoyée vers un serveur TURN (ou une extension TURN dans un serveur STUN) afin d'obtenir une adresse relais pour le trafic UDP.
+La demande spécifie un temps de vie de 3600 secondes pour l'allocation. Cela permet, lorsque le NAT bloque la connexion directe, de relayer le trafic via le serveur TURN.
+
+
+dans le paquet 48 : Binding Request : STUN
+c est une requête de liaison : l'user demande son adresse ip publique et vérifie sa connextivité avec le réseau avant de rejoindre l'appel
+c est un paquet qui montre que l'autre hôte se connecte et initie sa présence dans l'appel Screego
+
+
+
+il y a l 'addresse ipv4 : 49.13.207.241 : https://whatismyipaddress.com/ip/49.13.207.241
+
+
+
+
+erreur 206 : Cette erreur peut être provoquée par des problèmes avec le cache du navigateur, des fichiers corrompus sur le serveur ou des problèmes de connexion.
