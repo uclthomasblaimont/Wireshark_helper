@@ -19,9 +19,13 @@ en relation les deux clients (i.e., peers)]
 
 ======DNS=======
 
+
+Y a t il d'autres paquets qui ont été résolus ? : oui quand nous lançons firefox
+
+
 [Observez-vous des comportements DNS inattendus?,Types de requêtes dns ? , les entreprises qui gèrent les serveurs ? , utilise t on bcp de dns ? ]
 
-
+[confirmation ilyasse paquet 152 capture_ilayssse_4G]
 dans le paquet 239 j'envoie une requêtez https pour screego.net  , mais il envoie un enrigstrement SOA -> curitiba.ns.porkbun.com (cela donne la zone d'autorité pour ce domaine) (paquet 242):
 ensuite dans le paquet 243 (type A) j'envoie une requête pour avoir l'adresse ipv4 de screego.net (la réponse serad dans le paquet 248) et dans le paquet 244 j'envoie une requête pour savoir l'adresse ipv6 de screego.net
 la réponse est dans le paquet 244
