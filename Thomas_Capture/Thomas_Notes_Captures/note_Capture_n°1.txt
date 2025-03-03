@@ -6,11 +6,6 @@ bien sûr je suis dans la room.
 
 donc il faut analsyer comment le dns a été effectuer , quels sont les paquets qui ont été envoyé. que s est il passé quand j'ai ouvert firefox , expliquer ce qu'il s est passé quand j'ai accéder à screego.net
 
-
-
-
-
-
 ====couche réseau====
 
 [Sachant que les applications à analyser sont plus orientées peer-to-peer plutôt
@@ -104,7 +99,39 @@ ip.addr == 162.159.130.234 // :CloudFlare Inc. Services:Datacenter  Country:Unit
 
 ====CHIFFREMENT ET SÉCURITÉ====
 
+utilise de l'AES pour crypter les données ?
 
+
+
+dans le paquet 253 : il y a différentsz algos de sécurité :
+
+
+when we do the handshake with tls we have a list of cipher suite.
+
+with this the client and the server can choose an algo for the handshake among a range of cipher suite
+the list indicates which cipher suite the tls of the client/server can be supported.
+one will be choosen and used.
+
+
+
+Cipher Suites (17 suites)
+    Cipher Suite: TLS_AES_128_GCM_SHA256 (0x1301)
+    Cipher Suite: TLS_CHACHA20_POLY1305_SHA256 (0x1303)
+    Cipher Suite: TLS_AES_256_GCM_SHA384 (0x1302)
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 (0xc02b)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f)
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256 (0xcca9)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256 (0xcca8)
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 (0xc02c)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (0xc030)
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (0xc00a)
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (0xc009)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA (0xc013)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (0xc014)
+    Cipher Suite: TLS_RSA_WITH_AES_128_GCM_SHA256 (0x009c)
+    Cipher Suite: TLS_RSA_WITH_AES_256_GCM_SHA384 (0x009d)
+    Cipher Suite: TLS_RSA_WITH_AES_128_CBC_SHA (0x002f)
+    Cipher Suite: TLS_RSA_WITH_AES_256_CBC_SHA (0x0035)
 
 
 ====couches de transports=====
