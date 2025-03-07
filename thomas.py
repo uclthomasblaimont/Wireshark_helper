@@ -1,43 +1,59 @@
 import pyshark
 import matplotlib.pyplot as plt
-import numpy as np
-from collections import Counter
 
-# Remplacez 'votre_fichier.pcapng' par le chemin de votre fichier pcapng
-capture = pyshark.FileCapture('Thomas_Capture/thomas_wifi_planA3.pcapng', keep_packets=False)
+# Chemin vers votre fichier pcapng
+pcap_file = 'Thomas_Capture/thomas_wifi_planA3.pcapng'
+capture = pyshark.FileCapture(pcap_file, keep_packets=False)
 
-packet_sizes = []
-timestamps = []
+# Initialisation des compteurs de volume (en octets)
+volume_tls = 0
+volume_udp = 0
+volume_tcp = 0
+volume_stun = 0
 
-# Extraction des tailles et des timestamps
+# Parcours des paquets
 for packet in capture:
     try:
-        # On suppose que le champ "length" contient la taille du paquet
-        packet_sizes.append(int(packet.length))
-        timestamps.append(float(packet.sniff_timestamp))
+        pkt_length = int(packet.length)
     except AttributeError:
-        # Certains paquets pourraient ne pas avoir le champ length
         continue
+
+    # Vérifier si le paquet contient TLS
+    if hasattr(packet, 'tls'):
+        volume_tls += pkt_length
+
+    # Vérifier si le paquet contient UDP
+    if hasattr(packet, 'udp'):
+        volume_udp += pkt_length
+
+    # Vérifier si le paquet contient TCP
+    if hasattr(packet, 'tcp'):
+        volume_tcp += pkt_length
+
+    # Vérifier si le paquet contient STUN (souvent dans la couche 'stun')
+    # Remarque : Certains paquets STUN sont encapsulés dans UDP
+    if hasattr(packet, 'stun'):
+        volume_stun += pkt_length
 
 capture.close()
 
-# Affichage de la distribution des tailles de paquets
-plt.figure(figsize=(10, 4))
-plt.hist(packet_sizes, bins=50, color='skyblue', edgecolor='black')
-plt.xlabel("Taille du paquet (octets)")
-plt.ylabel("Fréquence")
-plt.title("Distribution des tailles de paquets")
-plt.show()
+# Affichage des résultats
+print("Volume de données par protocole (en octets) :")
+print("TLS:", volume_tls)
+print("UDP:", volume_udp)
+print("TCP:", volume_tcp)
+print("STUN:", volume_stun)
 
-# Pour visualiser la fréquence des paquets dans le temps,
-# on peut créer un histogramme en regroupant les paquets par intervalle de temps
-start_time = min(timestamps)
-end_time = max(timestamps)
-bins = np.linspace(start_time, end_time, num=50)  # Ajustez le nombre de bins selon vos besoins
+# Visualisation : création d'un diagramme à barres
+protocols = ['TLS', 'UDP', 'TCP', 'STUN']
+volumes = [volume_tls, volume_udp, volume_tcp, volume_stun]
 
-plt.figure(figsize=(10, 4))
-plt.hist(timestamps, bins=bins, color='lightgreen', edgecolor='black')
-plt.xlabel("Timestamp (secondes)")
-plt.ylabel("Nombre de paquets")
-plt.title("Fréquence des paquets dans le temps")
+plt.figure(figsize=(8, 5))
+bars = plt.bar(protocols, volumes, color=['skyblue', 'lightgreen', 'salmon', 'orange'])
+plt.xlabel("Protocoles")
+plt.ylabel("Volume de données (octets)")
+plt.title("Volume de données par protocole")
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height, f'{height}', ha='center', va='bottom')
 plt.show()

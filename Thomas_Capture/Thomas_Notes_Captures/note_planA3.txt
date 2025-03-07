@@ -15,6 +15,14 @@ il y a du protocole MDNS :  ce qui permet de simplifier la découverte et la con
 il permet de résoudres des nomds d'hôtes en adresse ip
 
 
+applications : 
+Volume de données par protocole (en octets) :
+TLS: 2208429
+UDP: 5607122
+TCP: 3209498
+STUN: 50610
+en octets
+
 
 
 STUN:
