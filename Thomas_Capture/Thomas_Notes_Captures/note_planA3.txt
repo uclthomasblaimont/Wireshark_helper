@@ -1,0 +1,25 @@
+DNS : 
+
+dans le paquet d'ilyasse il y a la même chose que pour le paquet de wifi solo
+
+
+
+
+Couches de transport : 
+UDP , QUIC , TCP 
+
+il y a du quic car on utilise firefox(google)
+udp sert à diffuser l'écran  , il y a aussi du tcp quand je commence à partager l'écran et idem pour le quic 
+
+il y a du protocole MDNS :  ce qui permet de simplifier la découverte et la configuration des ressources dans des réseaux locaux restreints, 
+il permet de résoudres des nomds d'hôtes en adresse ip
+
+
+
+
+STUN:
+ USERNAME: cv30qksn1r1c738a3kfghost (Thomas)
+ USERNAME: 08fd995c:e74f6cc5 (Ilyasse)
+ USERNAME: 836fe586:hLhB (Luca)
+
+

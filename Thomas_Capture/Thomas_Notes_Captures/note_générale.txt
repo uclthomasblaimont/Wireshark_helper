@@ -1,0 +1,30 @@
+2.1.1 DNS:
+//faire un schéma de ce qui se passe quand on veut se connecter la première au site   
+
+
+
+
+==============================
+2.1.2 Couche réseau
+
+
+//quelles méthodes sont utilisés pour connecter en peer to peer ?
+décentralise le coté serveur client  , les users jouent à la fois le rôle de client/server <---> client/server 
+
+
+
+
+==============================
+2.1.3 Couche transport
+
+
+
+
+
+==============================
+2.1.4 Chiffrement et sécurité
+
+
+
+==============================
+2.1.5 Applications
