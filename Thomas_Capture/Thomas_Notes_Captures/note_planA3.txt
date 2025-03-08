@@ -1,18 +1,26 @@
 DNS : 
+il y a un pourcentage de 1.07% de requête dns non résolus (13/1220)  , majoritairement de type HTTPS , ensuite de IPV6 et pour finir ipv4.
+Nous avons des requêtes CNAME , HTTPS  , SOA , A ,AAAA
 
-dans le paquet d'ilyasse il y a la même chose que pour le paquet de wifi solo
 
+dans le paquet d'ilyasse il y a la même chose que pour le paquet de wifi solo , check with mates
 
+j'observe que quand je lance mon naviguateur firefox , je vois qu'il y a des requêtes pour différents services comme pour la barre de favoris ou aussi les services
+du naviguateur mais aussi les services de sécurité et de privacy
 
+Couche réseau :
+ici l'application  montre que l'hôte préfère les ipv6 que les ipv4 et  pour les clients , l'application utilise leur ipv4
 
 Couches de transport : 
-UDP , QUIC , TCP 
+UDP , QUIC , TCP , RTCP
 
 il y a du quic car on utilise firefox(google)
 udp sert à diffuser l'écran  , il y a aussi du tcp quand je commence à partager l'écran et idem pour le quic 
 
 il y a du protocole MDNS :  ce qui permet de simplifier la découverte et la configuration des ressources dans des réseaux locaux restreints, 
 il permet de résoudres des nomds d'hôtes en adresse ip
+
+
 
 
 applications : 
@@ -29,5 +37,22 @@ STUN:
  USERNAME: cv30qksn1r1c738a3kfghost (Thomas)
  USERNAME: 08fd995c:e74f6cc5 (Ilyasse)
  USERNAME: 836fe586:hLhB (Luca)
+Dans STUN il y a un champ "REQUESTED-TRANSPORT : UDP" cela veut dire que STUN utilise le protocole UDP qui est un datagram système
+
+UDP qui est souvent utilisé pour du stream ou pour diffuser du jeu en réseau ou pour de la vidéo-conférence , comme pour les applications comme Teams , ZOOM, Skype
+
+
+
+
+Sécurité :
+
+
+Cipher Suites (algorithmes de chiffrement) négociées (connues) :
+ - TLS_AES_128_GCM_SHA256: 284 occurrence(s)
+ - TLS_AES_256_GCM_SHA384: 69 occurrence(s)
+ - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256: 14 occurrence(s)
+ - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256: 26 occurrence(s)
+ - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384: 2 occurrence(s)
+ - TLS_RSA_WITH_AES_128_CBC_SHA: 2 occurrence(s)
 
 

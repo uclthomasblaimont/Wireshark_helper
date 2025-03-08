@@ -110,3 +110,44 @@ def analyze_capture(file_path, csv_path='analysis.csv'):
 
     capture.close()
     print(f"\nAnalyse terminée. Résultats enregistrés dans : {csv_path}")
+
+
+import pyshark
+
+
+def capture_tls_cipher_suites(interface='eth0', max_packets=10):
+    """
+    Capture des paquets TLS sur une interface et retourne
+    la liste des cipher suites détectées dans le handshake TLS.
+
+    :param interface: Nom de l'interface réseau à écouter (ex: 'eth0', 'wlan0', etc.)
+    :param max_packets: Nombre maximal de paquets à analyser avant d'arrêter la capture.
+    :return: Liste des cipher suites détectées.
+    """
+    cipher_suites = []
+
+    # On applique un filtre Wireshark pour ne récupérer que les paquets TLS.
+    capture = pyshark.LiveCapture(interface=interface, display_filter='tls')
+
+    # Parcours des paquets en temps réel, limité par max_packets
+    for i, packet in enumerate(capture.sniff_continuously()):
+        if i >= max_packets:
+            break
+
+        # Vérifier que le paquet contient un segment TLS
+        if 'TLS' in packet:
+            tls_layer = packet.tls
+            # Vérifier l'attribut contenant la suite de chiffrement
+            if hasattr(tls_layer, 'handshake_ciphersuite'):
+                suite = tls_layer.handshake_ciphersuite
+                cipher_suites.append(suite)
+
+    return cipher_suites
+
+
+if __name__ == "__main__":
+    # Exemple d'utilisation
+    suites = capture_tls_cipher_suites(interface='eth0', max_packets=20)
+    print("Cipher suites TLS détectées :")
+    for s in suites:
+        print(f" - {s}")
