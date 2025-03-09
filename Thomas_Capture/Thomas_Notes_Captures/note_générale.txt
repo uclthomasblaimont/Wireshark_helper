@@ -1,7 +1,9 @@
 2.1.1 DNS:
 //faire un schéma de ce qui se passe quand on veut se connecter la première au site   
 
-
+En interrogeant pour le record HTTPS ,pour une première connexion vers le site ,nous obtenons l'adresse ipv4 et ipv6 .
+pour ce qui est SOA : le serveur ne fournit pas directement un record mais renvoie l'information vers la zone d'autorité : curitiba.ns.porkbun.com
+mais cela affiche qu'il n'ya pas  de données correspondante pour le type https
 
 
 ==============================
@@ -9,6 +11,8 @@
 
 
 //quelles méthodes sont utilisés pour connecter en peer to peer ?
+
+l'application utilise une combinaison de techniques pour la traversée de NAT.
 décentralise le coté serveur client  , les users jouent à la fois le rôle de client/server <---> client/server 
 
 
@@ -17,7 +21,13 @@ décentralise le coté serveur client  , les users jouent à la fois le rôle de
 ==============================
 2.1.3 Couche transport
 
+Dans notre analyse nous avons != protocoles de transports comme TCP UDP QUIC
 
+TCP pour ...
+
+UDP:  ce qui est assez normal pour une application de ce genre
+
+QUIC
 
 
 
