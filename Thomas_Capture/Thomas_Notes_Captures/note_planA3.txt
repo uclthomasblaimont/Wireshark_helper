@@ -66,4 +66,3 @@ Cipher Suites (algorithmes de chiffrement) négociées (connues) :
  - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384: 2 occurrence(s)
  - TLS_RSA_WITH_AES_128_CBC_SHA: 2 occurrence(s)
 
-
