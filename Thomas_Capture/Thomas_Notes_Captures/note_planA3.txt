@@ -46,6 +46,17 @@ UDP qui est souvent utilisé pour du stream ou pour diffuser du jeu en réseau o
 
 Sécurité :
 
+il y a du tls1.2 , tls1.3  , quic
+
+
+pour tls il y a du handshake habituelle
+
+
+
+quic permet d'avoir un handshake rapide , quic est souvent utiliser pour https3/ , utiliser contre la congestion
+
+
+
 
 Cipher Suites (algorithmes de chiffrement) négociées (connues) :
  - TLS_AES_128_GCM_SHA256: 284 occurrence(s)
@@ -54,5 +65,4 @@ Cipher Suites (algorithmes de chiffrement) négociées (connues) :
  - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256: 26 occurrence(s)
  - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384: 2 occurrence(s)
  - TLS_RSA_WITH_AES_128_CBC_SHA: 2 occurrence(s)
-
 

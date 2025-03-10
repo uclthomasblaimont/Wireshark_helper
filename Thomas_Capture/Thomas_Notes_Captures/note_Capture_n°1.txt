@@ -47,13 +47,9 @@ Authoritative nameservers
         Minimum TTL: 1800 (30 minutes)
 
 
-
 dans la frame 239 il y a la requête DNS pour screego la demande et au paquet 242 il y a la réponse
 
 dans la frame 245 il y a peut être la demande pour la connexion à la room
-
-
-
 
 dans les applications peer to peer il n'y a pas bcp d'interaction avec le DNS : effectivement on peut passer par un réseau local sans passer par le DNS.
 
@@ -69,21 +65,11 @@ PACKAGE FEC : correction d'erreur directe
 
 MITM : l'en tête du paquet envoyé est en texte brut sans authentification préalable.avec quic ils sont toujours authentifiés et largement chiffrés.
 
-
-
-
-
-
-
 ======TCP=======
 
 
 paquet 269:Destination Address: 2a00:1450:400e:811::2003 : adresse ipv6 de Google LLC IRELAND
 paquet 341:Destination Address: 2a02:a000:1:213::51f3:179 :  adresse ipv6 de proximus bxl
-
-
-
-
 
 
 =====ipv4======
