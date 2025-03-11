@@ -3,7 +3,7 @@ il y a un pourcentage de 1.07% de requête dns non résolus (13/1220)  , majorit
 Nous avons des requêtes CNAME , HTTPS  , SOA , A ,AAAA
 
 
-dans le paquet d'ilyasse il y a la même chose que pour le paquet de wifi solo , check with mates
+
 
 j'observe que quand je lance mon naviguateur firefox , je vois qu'il y a des requêtes pour différents services comme pour la barre de favoris ou aussi les services
 du naviguateur mais aussi les services de sécurité et de privacy
@@ -14,7 +14,7 @@ ici l'application  montre que l'hôte préfère les ipv6 que les ipv4 et  pour l
 Couches de transport : 
 UDP , QUIC , TCP , RTCP
 
-il y a du quic car on utilise firefox(google)
+il y a du quic car on utilise firefox(google)   
 udp sert à diffuser l'écran  , il y a aussi du tcp quand je commence à partager l'écran et idem pour le quic 
 
 il y a du protocole MDNS :  ce qui permet de simplifier la découverte et la configuration des ressources dans des réseaux locaux restreints, 

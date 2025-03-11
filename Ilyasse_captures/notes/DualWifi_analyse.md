@@ -206,7 +206,7 @@ TLS est utilisé dans de nombreuses applications et protocoles, notamment :
 
 ### **ICMPv6**
 - **Rôle** : ICMPv6 est utilisé pour signaler des erreurs dans les communications IPv6.
-- **Exemple** : Dans votre capture, ICMPv6 signale que la requête de binding a échoué en raison d'une politique de filtrage réseau.
+- **Exemple** : Dans notre capture, ICMPv6 signale que la requête de binding a échoué en raison d'une politique de filtrage réseau.
 
 ---
 

@@ -1,9 +1,14 @@
 2.1.1 DNS:
 //faire un schéma de ce qui se passe quand on veut se connecter la première au site   
 
-En interrogeant pour le record HTTPS ,pour une première connexion vers le site ,nous obtenons l'adresse ipv4 et ipv6 .
-pour ce qui est SOA : le serveur ne fournit pas directement un record mais renvoie l'information vers la zone d'autorité : curitiba.ns.porkbun.com
-mais cela affiche qu'il n'ya pas  de données correspondante pour le type https
+Lors de la première connexion vers screego.net ou app.screego.net , le naviguateur envoie une requête DNS de type HTTPS afin de vérifier s'il un enregistrement spécifique pour HTTPS qui existe sur pour le domaine en question.
+Le serveur DNS (ou résolveur) ne renvoie pas directement un record HTTPS , mais plutôt un enregistrement SOA (Start of Authority) indiquant que le serveur d'autorité est curitiba.ns.porkbun.com.
+Ensuite il y a une autre requête qui est envoyé de type A pour obtenir l'adresse ipv4 du site. La réponse nous fournit une ou plusieurs adresses comme celle ci ( 49.13.207.241).
+De manière une autre requête de type AAAA est envoyé. Elle fait exactement la même chose que la requête de type A mais ici on récupère l'ipv6 du site.Nous obtenons cette adresse ci : 2a01:4f8:1c1e:6364::1
+À ce stade là , nous observons que l'application préfère les ipv6 que les ipv4.
+
+Durant notre analyse DNS nous avons également observés  des comportements inattendus ; comme des résolutions dns pour d'autres sites. Cela est du à la barre de favoris de notre naviguateur ici Firefox.Nous avons également du'atres résolutions pour le service de sécurité de notre naviguateur.
+
 
 
 ==============================
@@ -12,22 +17,19 @@ mais cela affiche qu'il n'ya pas  de données correspondante pour le type https
 
 //quelles méthodes sont utilisés pour connecter en peer to peer ?
 
-l'application utilise une combinaison de techniques pour la traversée de NAT.
-décentralise le coté serveur client  , les users jouent à la fois le rôle de client/server <---> client/server 
-
+l'application utilise une combinaison de techniques pour la traversée de NAT. La combinaison est STUN/TURN ,cela aide à la décentralisation du "server-client"
+les users jouent le rôle de "client-serveur" en même temps.
+OK ! C est quoi STUN et TURN ? : C 'est un service de connexion qui aide à contourner les différents problèmes de NAT 
+STUN : est utilisé pour découvrir les adresses ip externe d'un client derrière un NAT et permet à 2 clients de communiquer ensemble. Souvent utilisé pour une connexion UDP entre 2 hôtes.
+TURN : protocole qui permet de recevoir des données entrantes derrière un NAT ou un pare-feu via une connexion TCP-UDP. C est un peu un serveur STUN avancé, sauf que TURN est utilisé si la connexion directe est impossbile
+donc cela transforme la connexion peer to peer en connexion client serveur.
 
 
 
 ==============================
 2.1.3 Couche transport
 
-Dans notre analyse nous avons != protocoles de transports comme TCP UDP QUIC
-
-TCP pour ...
-
-UDP:  ce qui est assez normal pour une application de ce genre
-
-QUIC
+Screego utilise plusieurs protocoles de transport , 
 
 
 
