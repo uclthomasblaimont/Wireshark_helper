@@ -29,7 +29,36 @@ donc cela transforme la connexion peer to peer en connexion client serveur.
 ==============================
 2.1.3 Couche transport
 
-Screego utilise plusieurs protocoles de transport , 
+Screego utilise plusieurs protocoles de transport pour optimiser la transmission de données.
+Nous avons remarquer que l'application utilisait UDP , TCP/RTCP et QUIC pour assurer une bonne diffusion du flux de partage d'écran.
+Il y a aussi des paquets MDNS pour la découverte des hôtes en réseau local.
+
+
+
+Donc UDP: 
+UDP ne nécessite pas de HANDSHAKE comme pour tls , tcp ou QUIC. 
+
+Souvent utilisé dans les communications assez sensibles au facteur de temps comme le streaming , où il est préférable d'abandonner les paquets au lieu de les attendre.
+Par exemple VoIP: Voice over IP utilise UDP , en effet la conversation téléphonique doit être claire et non différée. Donc Screego tolère les paquets perdus ou les doublons ,
+d'ailleurs en parlant de doublons nous avons lancé le scrypt "doublon_udp_quic.py" nous avons constaté qu'il y a un nombre total de doublons UDP détectés : 24720
+Nombre total de doublons QUIC détectés : 3
+
+Donc pour résumé UDP  il est moins fiable mais dans le cas de l'application Screego il est plus souvent utilisé que TCP , en raison de sa faible latence.
+
+
+QUIC: QUIC apporte des améliorations significatives , il offre un TLS plus rapide ( 6 messages à 3 messages) , une retransmission des paquets perdus , chiffrement plus complet et un multiplexage 
+grâce à des numéros de séquence unique.
+avec QUIC si nous augmentons le nombre d'utilisateurs par exemple à 3 grâce à son contrôle de congestion et son multiplexage . QUIC sera maintenir la qualité de service en adaptant le débit.
+
+
+TCP :
+Ici dans Screego , TCP est utilisé pour la signalisation et l'établissement de la connexion.
+Quand nous démarrons le partage d'écran , TCP va nous servir dans ce cas bien précis , à échanger les messages de négociations , de contrôle et d'authentification entre les pairs.
+
+Et pour RTCP: Généralement utilisé en complément du protocole de transport de données en temps réel. Son rôle est de fournir des informations de contrôle sur la qualité du flux: il collecte les statistiques , mesurela latence et assure la synchronisation entre les différents flux .
+Ce protocole aide à garder une fluidité pour le partage d'écran et de maintenir dynamiquement le débit.
+
+
 
 
 
@@ -39,4 +68,9 @@ Screego utilise plusieurs protocoles de transport ,
 
 
 ==============================
-2.1.5 Applications
+2.1.5 Applications :
+
+
+
+Attention nous avons remarqués que si nous augmentons le nombre d'utilisateurs cela va nous mener à une augmentation des latences , surtout si la bande passante ou le serveur n'est pas adpater pour.
+Quand nous avons effectuons le test avec 3 utilisateurs j'ai remarqué au début un petit lag d'écran. Ce qui devient plus compliqué à traverser la couche NAT.
