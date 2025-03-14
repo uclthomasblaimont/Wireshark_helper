@@ -24,7 +24,12 @@ STUN : est utilisé pour découvrir les adresses ip externe d'un client derrièr
 TURN : protocole qui permet de recevoir des données entrantes derrière un NAT ou un pare-feu via une connexion TCP-UDP. C est un peu un serveur STUN avancé, sauf que TURN est utilisé si la connexion directe est impossbile
 donc cela transforme la connexion peer to peer en connexion client serveur.
 
+MDNS: \\EXTENSIONS\\
+MDNS nous sert à découvrir les participants et connaître la confiugration du réseau local.
+Il convertit le noms des hôtes en adresse ip . Mais bon on pense qu'ici nos paquets mdns viennent du naviguateur firefox car nous avons des adresses ip que nous avons vu auparavant.
 
+
+ARP:  Protocole qui permet d'associer l'adresse de protocole de couche réseau  d'un hôte distant ,  à son adresse de protocole de couche de liaison. typiquement adresse MAC    
 
 ==============================
 2.1.3 Couche transport
@@ -60,10 +65,9 @@ Ce protocole aide à garder une fluidité pour le partage d'écran et de mainten
 
 
 
-
-
 ==============================
-2.1.4 Chiffrement et sécurité
+2.1.4 Chiffrement et sécurité:  voir partie ilyasse
+
 
 
 
@@ -71,6 +75,19 @@ Ce protocole aide à garder une fluidité pour le partage d'écran et de mainten
 2.1.5 Applications :
 
 
+Pour du partage d’écran, comment l’application se comporte-t-elle lorsque plusieurs uti-
+lisateurs regardent le même écran ?
+
+Pour du partage d’écran, l’application se comporte-t-elle différemment lorsque le flux vidéo
+devient plus important (par exemple lorsque l’écran subit beaucoup de modifications) ?
+— Pour du partage d’écran, est-ce que la qualité vidéo s’adapte au débit de la connexion
+internet ?
+
 
 Attention nous avons remarqués que si nous augmentons le nombre d'utilisateurs cela va nous mener à une augmentation des latences , surtout si la bande passante ou le serveur n'est pas adpater pour.
 Quand nous avons effectuons le test avec 3 utilisateurs j'ai remarqué au début un petit lag d'écran. Ce qui devient plus compliqué à traverser la couche NAT.
+
+
+
+===================
+EXTENSIONS: pour les slides : 
