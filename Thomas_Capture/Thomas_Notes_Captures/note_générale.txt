@@ -78,10 +78,31 @@ Ce protocole aide à garder une fluidité pour le partage d'écran et de mainten
 Pour du partage d’écran, comment l’application se comporte-t-elle lorsque plusieurs uti-
 lisateurs regardent le même écran ?
 
+(metch networking) : Dans un environnement peer-to-peer comme celui de Screego, il n'est pas optimal que le diffuseur principal envoie le flux de partage d’écran directement à chaque spectateur. Pour alléger la charge sur l'émetteur, les récepteurs peuvent également participer à la diffusion du flux. 
+Autrement dit, une fois qu'un utilisateur reçoit le flux, il peut le retransmettre à d'autres participants. Ce mécanisme, qui ressemble à un maillage (mesh networking) ou à une distribution par relais entre pairs, permet de répartir la charge de la bande passante et d'améliorer la scalabilité du service, surtout lorsque le nombre d'utilisateurs augmente.
+
+
+Screego a une architecture peer to peer optimisée. QUIC va envoyer simultanément le même flux chiffré à plusieurs destinataires
+Le flux est reçu en temps réel de manière efficace. Ce qui minimise l'impact sur la latence et garantit une synchronisation entre les participants.
+
 Pour du partage d’écran, l’application se comporte-t-elle différemment lorsque le flux vidéo
 devient plus important (par exemple lorsque l’écran subit beaucoup de modifications) ?
 — Pour du partage d’écran, est-ce que la qualité vidéo s’adapte au débit de la connexion
 internet ?
+
+Screego détecte l'augmentation de la charge visuelle et, en conséquence, le débit de données peut augmenter.
+ Pour faire face à cette situation, l'application adapte le débit binaire du flux vidéo, par exemple en ajustant la compression ou la fréquence d'image. Si le réseau dispose d'une bonne bande passante, la qualité peut rester élevée, mais si le débit disponible diminue, l'application réduit la qualité pour maintenir une fluidité d'affichage. Ce mécanisme d'adaptation, souvent appelé « adaptation au débit » ou « adaptive bitrate streaming »,
+permet de conserver une expérience de partage d'écran acceptable même lorsque le contenu change rapidement.
+
+Au niveau de UDP : il y aura de plus en plus de paquets et la taille des paquets va augmenter pour transmettre de plus en plus d'informations.
+Cependant si le réseau est limité , screego peut limiter la taille des paquets pour éviter l'encombrement et la perte de paquets avec des données importantes.
+
+Au nivea de QUIC : puisqu'il contient une option pour le contrôle de congestion , il peut détecter rapidement uen augmentation du trafic et adapter le rythme d'envoi. Cela empêche une dégradation de la vidéo.
+
+
+
+
+
 
 
 Attention nous avons remarqués que si nous augmentons le nombre d'utilisateurs cela va nous mener à une augmentation des latences , surtout si la bande passante ou le serveur n'est pas adpater pour.
