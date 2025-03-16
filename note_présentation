@@ -1,0 +1,35 @@
+
+
+
+
+
+
+
+
+
+
+Slide n °13:
+
+ Découverte IP publique : STUN permet à un client situé derrière un NAT de découvrir son adresse IP et le port externe par le NAT.
+Lorsqu'un client envoie une requête STUN , voir le paquet associé , à un serveur public , celui-ci répond en indiquant l'adresse qu'il a sur internet.
+Cela permet d'obtenir les informations nécessaires pour initier une connexion directe , en contournant les limitations du NAT.
+
+Au point de vue des ressources : le protocole STUN est un protocole assez léger et peu coûteux en termes de ressources : il s'appuie sur des serveurs publics simples à déployer et à maintenir?
+Les échanges STUN sont généralement de petite taille. 568 octets d'après le script stun_packet_size.py qui retourne la moyenne des tailles de paquets du protocole STUN.
+Une fois l'adresse publique obtenue , nous pouvons effectuer une connexion directe avec un autre client , cette approche permet d'éviter du surcharger le réseau et d'éviter d'avoir recours à d'autres serveurs relais.
+
+ICE utilise STUN pour receuillir des "candidats" ; ICE est utilisé pour créer une connexion entre 2 hôtes qui se retrouvent derrière des NAT ou des pare-feux. Il s'appuie sur STUN pour découvrir les adresses et effectue e
+ensuite des tests de connectivités pour déterminer la voie optimale pour une communication peer to peer.
+
+Mais STUN à certaines limites : STUN peut échouer si par exemple nous avons un NAT symmétrique ou très restrictifs. Donc le protocol TURN prend le relais.
+Au point de vue sécurité, STUN avant tout se repose sur des échanges assez simples , il peut être vulnérable à certaines attaques  , comme par exemple : MITM avec du spoofing :
+des personnes malvaillantes peuvent conserver certaines données comme des adresses ip , ils les utilisent pour avoir d'autres adresses , comme des adresses physiques .
+Hadopi utilisaient ce système pour lutter contre le piratage , ils collectent des informations comme des ip , sur des réseaux de partages illégaux et de ce fait ils peuvent remonter à la "source"  au "mallory" ou "terrence"
+
+
+
+
+
+
+Slide n°14:
+
