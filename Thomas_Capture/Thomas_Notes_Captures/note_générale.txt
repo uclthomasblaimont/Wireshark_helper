@@ -7,7 +7,6 @@ Ensuite il y a une autre requête qui est envoyé de type A pour obtenir l'adres
 De manière une autre requête de type AAAA est envoyé. Elle fait exactement la même chose que la requête de type A mais ici on récupère l'ipv6 du site.Nous obtenons cette adresse ci : 2a01:4f8:1c1e:6364::1
 À ce stade là , nous observons que l'application préfère les ipv6 que les ipv4.
 
-Durant notre analyse DNS nous avons également observés  des comportements inattendus ; comme des résolutions dns pour d'autres sites. Cela est du à la barre de favoris de notre naviguateur ici Firefox.Nous avons également du'atres résolutions pour le service de sécurité de notre naviguateur.
 
 
 
@@ -21,13 +20,11 @@ l'application utilise une combinaison de techniques pour la traversée de NAT. L
 les users jouent le rôle de "client-serveur" en même temps.
 OK ! C est quoi STUN et TURN ? : C 'est un service de connexion qui aide à contourner les différents problèmes de NAT 
 STUN : est utilisé pour découvrir les adresses ip externe d'un client derrière un NAT et permet à 2 clients de communiquer ensemble. Souvent utilisé pour une connexion UDP entre 2 hôtes.
-TURN : protocole qui permet de recevoir des données entrantes derrière un NAT ou un pare-feu via une connexion TCP-UDP. C est un peu un serveur STUN avancé, sauf que TURN est utilisé si la connexion directe est impossbile
-donc cela transforme la connexion peer to peer en connexion client serveur.
+TURN :TURN (Traversal Using Relays around NAT) est un protocole qui aide à traverser les traducteurs d'adresses réseau (NAT) ou les pare-feu afin de faciliter les communications d'égal à égal
 
 MDNS: \\EXTENSIONS\\
 MDNS nous sert à découvrir les participants et connaître la confiugration du réseau local.
 Il convertit le noms des hôtes en adresse ip . Mais bon on pense qu'ici nos paquets mdns viennent du naviguateur firefox car nous avons des adresses ip que nous avons vu auparavant.
-
 
 ARP:  Protocole qui permet d'associer l'adresse de protocole de couche réseau  d'un hôte distant ,  à son adresse de protocole de couche de liaison. typiquement adresse MAC    
 
@@ -78,7 +75,8 @@ Ce protocole aide à garder une fluidité pour le partage d'écran et de mainten
 Pour du partage d’écran, comment l’application se comporte-t-elle lorsque plusieurs uti-
 lisateurs regardent le même écran ?
 
-
+?:(metch networking) : Dans un environnement peer-to-peer comme celui de Screego, il n'est pas optimal que le diffuseur principal envoie le flux de partage d’écran directement à chaque spectateur. Pour alléger la charge sur l'émetteur, les récepteurs peuvent également participer à la diffusion du flux.
+Autrement dit, une fois qu'un utilisateur reçoit le flux, il peut le retransmettre à d'autres participants. Ce mécanisme, qui ressemble à un maillage (mesh networking) ou à une distribution par relais entre pairs, permet de répartir la charge de la bande passante et d'améliorer la scalabilité du service, surtout lorsque le nombre d'utilisateurs augmente.
 
 
 Screego a une architecture peer to peer optimisée. QUIC va envoyer simultanément le même flux chiffré à plusieurs destinataires
@@ -101,12 +99,16 @@ Au niveau de QUIC : puisqu'il contient une option pour le contrôle de congestio
 
 
 ===================
-EXTENSIONS: pour les slides : 
-
+EXTENSIONS: pour les slides : ===================
+EXTENSIONS: pour les slides :
 
 Attention nous avons remarqués que si nous augmentons le nombre d'utilisateurs cela va nous mener à une augmentation des latences , surtout si la bande passante ou le serveur n'est pas adpater pour.
 Quand nous avons effectuons le test avec 3 utilisateurs j'ai remarqué au début un petit lag d'écran. Ce qui devient plus compliqué à traverser la couche NAT.
 
+
+Durant notre analyse DNS nous avons également observés  des comportements inattendus ; comme des résolutions dns pour d'autres sites. Cela est du à la barre de favoris de notre naviguateur ici Firefox.Nous avons également du'atres résolutions pour le service de sécurité de notre naviguateur.
+
+Thomas avait oublié de désactiver son google home , donc il y a eu des paquets "BROADCAST" dans la capture solo wifi.
 
 
 
@@ -195,3 +197,5 @@ On pense que de manière générale dans un système peer to peer il peut quand 
 /*monter la slide n°17 et expliquer*/
 Mais Screego n'implémente pas ce genre de comportement, enfin nous avons rien remarqué de tel. 
 
+
+Est ce que Screego fonctionne comme dans la slide n°17 ?
