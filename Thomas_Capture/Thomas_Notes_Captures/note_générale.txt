@@ -78,8 +78,7 @@ Ce protocole aide à garder une fluidité pour le partage d'écran et de mainten
 Pour du partage d’écran, comment l’application se comporte-t-elle lorsque plusieurs uti-
 lisateurs regardent le même écran ?
 
-(metch networking) : Dans un environnement peer-to-peer comme celui de Screego, il n'est pas optimal que le diffuseur principal envoie le flux de partage d’écran directement à chaque spectateur. Pour alléger la charge sur l'émetteur, les récepteurs peuvent également participer à la diffusion du flux. 
-Autrement dit, une fois qu'un utilisateur reçoit le flux, il peut le retransmettre à d'autres participants. Ce mécanisme, qui ressemble à un maillage (mesh networking) ou à une distribution par relais entre pairs, permet de répartir la charge de la bande passante et d'améliorer la scalabilité du service, surtout lorsque le nombre d'utilisateurs augmente.
+
 
 
 Screego a une architecture peer to peer optimisée. QUIC va envoyer simultanément le même flux chiffré à plusieurs destinataires
@@ -88,7 +87,7 @@ Le flux est reçu en temps réel de manière efficace. Ce qui minimise l'impact 
 Pour du partage d’écran, l’application se comporte-t-elle différemment lorsque le flux vidéo
 devient plus important (par exemple lorsque l’écran subit beaucoup de modifications) ?
 — Pour du partage d’écran, est-ce que la qualité vidéo s’adapte au débit de la connexion
-internet ?
+internet ?      
 
 Screego détecte l'augmentation de la charge visuelle et, en conséquence, le débit de données peut augmenter.
  Pour faire face à cette situation, l'application adapte le débit binaire du flux vidéo, par exemple en ajustant la compression ou la fréquence d'image. Si le réseau dispose d'une bonne bande passante, la qualité peut rester élevée, mais si le débit disponible diminue, l'application réduit la qualité pour maintenir une fluidité d'affichage. Ce mécanisme d'adaptation, souvent appelé « adaptation au débit » ou « adaptive bitrate streaming »,
@@ -97,12 +96,12 @@ permet de conserver une expérience de partage d'écran acceptable même lorsque
 Au niveau de UDP : il y aura de plus en plus de paquets et la taille des paquets va augmenter pour transmettre de plus en plus d'informations.
 Cependant si le réseau est limité , screego peut limiter la taille des paquets pour éviter l'encombrement et la perte de paquets avec des données importantes.
 
-Au nivea de QUIC : puisqu'il contient une option pour le contrôle de congestion , il peut détecter rapidement uen augmentation du trafic et adapter le rythme d'envoi. Cela empêche une dégradation de la vidéo.
+Au niveau de QUIC : puisqu'il contient une option pour le contrôle de congestion , il peut détecter rapidement une augmentation du trafic et adapter le rythme d'envoi. Cela empêche une dégradation de la vidéo.
 
 
 
-
-
+===================
+EXTENSIONS: pour les slides : 
 
 
 Attention nous avons remarqués que si nous augmentons le nombre d'utilisateurs cela va nous mener à une augmentation des latences , surtout si la bande passante ou le serveur n'est pas adpater pour.
@@ -110,5 +109,89 @@ Quand nous avons effectuons le test avec 3 utilisateurs j'ai remarqué au début
 
 
 
-===================
-EXTENSIONS: pour les slides : 
+
+============== pour la présentation=========
+
+=============STUN=============slide n°13:
+
+
+
+Un serveur STUN (Session Traversal Utilities for NAT) aide les appareils à découvrir leur adresse IP publique et leur port lorsqu'ils se trouvent derrière un NAT. 
+Ces informations sont essentielles pour établir une connexion d'égal à égal.
+
+Principales caractéristiques des serveurs STUN :
+
+Découverte de l'IP publique : Les serveurs STUN révèlent l'adresse IP et le port publics d'un appareil.
+Utilisation légère des ressources : Ces serveurs gèrent des demandes et des réponses simples.
+Permet des connexions directes : Fonctionne efficacement lorsque les NAT ou les pare-feu ne sont pas très restrictifs.
+Rôle dans l'ICE : Utilisé pendant le processus ICE (établissement interactif de la connectivité) pour rassembler les candidats à la connexion.
+
+Exemple de cas d'utilisation :
+
+Alice et Bob veulent lancer un appel vidéo. Tous deux se trouvent derrière des NAT, mais leurs réseaux permettent des connexions directes dès lors qu'ils connaissent leurs IP et ports publics. Un serveur STUN les aide à découvrir ces informations et à établir une connexion d'égal à égal sans relais.
+Limites du STUN :
+ Ne convient pas aux NATs restrictifs : Les NAT symétriques ou les pare-feu stricts peuvent bloquer les connexions directes, ce qui rend le STUN insuffisant.
+
+
+
+/*pour le MITM : 
+Par exemple, imaginons qu'un attaquant intercepte ou observe la communication entre un client et un serveur STUN. Plutôt que d'attendre la réponse légitime du serveur, l'attaquant peut injecter une réponse STUN falsifiée (spoofée) dans laquelle il indique une adresse IP et un port de son choix, plutôt que ceux réellement assignés par le NAT. 
+
+Ainsi, le client, pensant recevoir une réponse authentique, utiliserait ces informations erronées pour établir sa connexion. Cela pourrait permettre à l'attaquant de rediriger ou intercepter le trafic ultérieur, facilitant par exemple une attaque de type man-in-the-middle. 
+
+Ce scénario met en évidence une vulnérabilité de STUN : en l'absence de mécanismes de vérification robustes ou d'authentification (que l'on trouve davantage dans TURN), il est plus facile de réaliser une attaque par spoofing sur les échanges STUN.
+
+
+*/
+
+=============TURN=============slide n°14:
+
+
+
+
+If not STUN -> TURN: Quand deux clients ne parviennent pads à établir une connexion directe via STUN , dans ils se rabattent sur TURN pour relayer le trafic via une serveur intermédiaire.
+
+NAT COMPLEXES : Certains NAT empĉhent les connexions directes. Donc les croix rouges sur le schéma ,même s'il y a eu une découverte d'adresse publique via STUN.
+
+Disponible :Ce qui est bien avec TURN c est que la roue de secours en cas d'échec , il est disponible directement car avant tout c est une extension de STUN.
+
+Inconvénient : Un inconvénient chez TURN est l'utilisation de la bande passante , il l'en consomme énormément , plus que le protocole STUN.
+C est pourquoi le protocole ICE impose l'utilisation du protocole STUN en premier recours , et l'utilisation du protocole TURN en cas d'échec avec le NAT ou d'autres situations où le protocole  STUN ne peut pas être déployer.
+
+
+
+EXEMPLE:
+
+
+Dans un premier temps , le client contacte un serveur turn avec une requête "Allocate": ça demande au serveur TURN d'allouer une partie de ses ressources pour que le client arrive à contacter sa pair.
+
+
+Si le serveur Turn accepte alors ,il attribue une adresse relai (XOR-RELAYED-ADDRESS) au client et sert de point de passage pour le trafic.
+
+/*voir si des paquets comme dans l'article de wikipédia*/
+
+Le serveur turn reçoit les données du client et les transmet au pair en utiliser UDP avec l'adresse XOR-RELAYED-ADDRESS.Le pair reçoit les données et répond tjrs avec UDP à l'adresse relais du serveur TURN.
+En recevant les données de l'autre pair, il doit vérifier les permissions et si elles sont valides , et les transmet au client.
+Ce processus permet de contourner les NAT qui symmétriques ou complexes.
+
+
+
+
+========Peer to Peer : many users ======== slide n°16:
+
+
+DETECTION augmentation : Screego détecte l'augmentation de la charge visuelle et donc le dénit de donées peut augmenter.
+Pour cette situation , l'app adapte le débit en appliquant certains algo de compression pour l'image ou la fréquence de l'image.
+Généralement si le réseau a un bon débit , la qualité peut rester élevée 
+mais si le débit disponible diminue ou est limité alors l'application réduit la qualité pour maintenir une fluidité d'affichage on appelle cela le "adaptive bitrate streaming" 
+
+
+QUIC & UDP :  Pour UDP : il y aura de plus en plus depaquets et la taille des paquets va augmenter pour transmettre de + en + d'informations. Si le réseau est limité , screego peut réduire la taille des paquets mais en générer plus compensser la réduction de taille 
+mais cela amène à plus de pertes et de doublons .
+
+
+Mech Networking ? : Alors au début nous avons cru que Screego suivait le principe du réseau maillé , eh bien non car dans un réseau maillé ,chaque noeud a la capacité de relayer le trafic pour tous les autres une graphe entièrement connecté.
+On pense que de manière générale dans un système peer to peer il peut quand même avoir un système de mech networking sauf qu'il y a une hiérarchie c est le client qui démarre le streaming.
+/*monter la slide n°17 et expliquer*/
+Mais Screego n'implémente pas ce genre de comportement, enfin nous avons rien remarqué de tel. 
+
