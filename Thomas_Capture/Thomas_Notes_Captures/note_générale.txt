@@ -100,15 +100,17 @@ Au niveau de QUIC : puisqu'il contient une option pour le contrôle de congestio
 
 ===================
 EXTENSIONS: pour les slides : ===================
-EXTENSIONS: pour les slides :
 
 Attention nous avons remarqués que si nous augmentons le nombre d'utilisateurs cela va nous mener à une augmentation des latences , surtout si la bande passante ou le serveur n'est pas adpater pour.
 Quand nous avons effectuons le test avec 3 utilisateurs j'ai remarqué au début un petit lag d'écran. Ce qui devient plus compliqué à traverser la couche NAT.
 
 
-Durant notre analyse DNS nous avons également observés  des comportements inattendus ; comme des résolutions dns pour d'autres sites. Cela est du à la barre de favoris de notre naviguateur ici Firefox.Nous avons également du'atres résolutions pour le service de sécurité de notre naviguateur.
+Durant notre analyse DNS nous avons également observés  des comportements inattendus ; comme des résolutions dns pour d'autres sites. Cela est du à la barre de favoris de notre naviguateur ici Firefox.
+Nous avons également d'autres résolutions pour le service de sécurité de notre naviguateur.
 
 Thomas avait oublié de désactiver son google home , donc il y a eu des paquets "BROADCAST" dans la capture solo wifi.
+
+Nous avons remarqué aussi des paquets MDNS , mais c est surement quand j'ai oublié de débrancher mon téléphone pdt les captures de paquets.
 
 
 
@@ -137,11 +139,38 @@ Limites du STUN :
 
 
 /*pour le MITM : 
-Par exemple, imaginons qu'un attaquant intercepte ou observe la communication entre un client et un serveur STUN. Plutôt que d'attendre la réponse légitime du serveur, l'attaquant peut injecter une réponse STUN falsifiée (spoofée) dans laquelle il indique une adresse IP et un port de son choix, plutôt que ceux réellement assignés par le NAT. 
+Au point de vue sécurité, STUN avant tout se repose sur des échanges assez simples , il peut être vulnérable à certaines attaques  , comme par exemple : MITM avec du spoofing :​
+des personnes malvaillantes peuvent conserver certaines données comme des adresses ip , ils les utilisent pour avoir d'autres adresses , comme des adresses physiques .​
+Hadopi utilisaient ce système pour lutter contre le piratage , ils collectent des informations comme des ip , sur des réseaux de partages illégaux et de ce fait ils peuvent remonter à la "source"  au "mallory" ou "terrence"
 
-Ainsi, le client, pensant recevoir une réponse authentique, utiliserait ces informations erronées pour établir sa connexion. Cela pourrait permettre à l'attaquant de rediriger ou intercepter le trafic ultérieur, facilitant par exemple une attaque de type man-in-the-middle. 
 
-Ce scénario met en évidence une vulnérabilité de STUN : en l'absence de mécanismes de vérification robustes ou d'authentification (que l'on trouve davantage dans TURN), il est plus facile de réaliser une attaque par spoofing sur les échanges STUN.
+
+
+
+voici un exemple de MITM-spoofing : 
+Scénario :
+
+    Contexte normal :
+        Alice et Bob souhaitent établir une connexion peer-to-peer pour un appel vidéo ou un partage d’écran.
+        Tous deux se trouvent derrière des NAT et utilisent le protocole STUN pour découvrir leur adresse IP publique et le port associé.
+        En temps normal, Alice envoie une requête STUN au serveur public, qui lui renvoie sa véritable adresse publique (par exemple, 203.0.113.10). Bob fait de même pour obtenir ses informations.
+
+    Intervention de Mallory :
+        Mallory est un attaquant qui se trouve sur le même réseau local que Alice ou qui peut intercepter son trafic.
+        Mallory intercepte la requête STUN d’Alice destinée au serveur STUN.
+        Au lieu de laisser passer la réponse légitime, Mallory injecte une réponse falsifiée dans laquelle il remplace l’adresse publique d’Alice par une adresse IP sous son contrôle (par exemple, 198.51.100.20).
+
+    Conséquence sur la communication :
+        Alice reçoit la réponse falsifiée et pense que son adresse publique est désormais 198.51.100.20.
+        Lorsqu’Alice et Bob procèdent à la négociation de leur connexion peer-to-peer, Bob utilise cette information erronée pour tenter de se connecter à Alice.
+        Ainsi, le trafic destiné à Alice passe par Mallory, qui se positionne entre les deux.
+        Mallory peut alors intercepter, modifier ou rediriger le trafic entre Alice et Bob, réalisant ainsi une attaque de type man-in-the-middle (MITM).
+
+    Rôle du spoofing IP :
+        Dans cet exemple, Mallory effectue un spoofing de l’adresse IP en remplaçant l’adresse publique réelle d’Alice par une adresse qu’il contrôle dans la réponse STUN.
+        Cette falsification permet à Mallory de détourner la communication et de s’interposer entre Alice et Bob sans qu’ils ne s’en rendent compte.
+
+
 
 
 */
@@ -165,11 +194,21 @@ C est pourquoi le protocole ICE impose l'utilisation du protocole STUN en premie
 EXEMPLE:
 
 
-Dans un premier temps , le client contacte un serveur turn avec une requête "Allocate": ça demande au serveur TURN d'allouer une partie de ses ressources pour que le client arrive à contacter sa pair.
+Dans un premier temps , le client contacte un serveur turn avec une requête "Allocate Request UDP lifetime" comme dans le paquet n° 740 du fichier wifi_planA3: ça demande au serveur TURN d'allouer une partie de ses ressources pour que le client arrive à contacter sa pair.
 
 
-Si le serveur Turn accepte alors ,il attribue une adresse relai (XOR-RELAYED-ADDRESS) au client et sert de point de passage pour le trafic.
+Si le serveur Turn accepte alors ,il attribue une adresse relai (Allocate success request XOR-RELAYED-ADDRESS) paquet n°777 : au client et sert de point de passage pour le trafic.
 
+Ensuite le client envoie une requête CreatePermissions au serveur TURN  (paquet n° 877) , pour avoir la permission de parler en mode pair-serveur. Donc TURN doit recevoir une demande de permission pour avoir une connexion valide.
+
+
+Une fois que les permissions créées le client a 2 possibilités pour envoyer les données soit envoyer normalement avec le mécanisme "SEND" que TURN nous fournis ou soit via le "Channel bind".
+Ici l'application utilise la méthode send , mais cette méthode , utilise plus de bande passante (en tête de 36 octets). paquetn°878 Attention pour utiliser la méthode "SEND" il faut avoir la xor-adresse et l'attribut data , turn peut discard la requête d'envoie 
+Si c est ok :  turn forme packet UDP avec l'adresse source ,l'adresse de destination , la données en question. (paquet n° 878)
+
+
+
+Donc une fois que cela est fait. 
 /*voir si des paquets comme dans l'article de wikipédia*/
 
 Le serveur turn reçoit les données du client et les transmet au pair en utiliser UDP avec l'adresse XOR-RELAYED-ADDRESS.Le pair reçoit les données et répond tjrs avec UDP à l'adresse relais du serveur TURN.
@@ -179,7 +218,8 @@ Ce processus permet de contourner les NAT qui symmétriques ou complexes.
 
 
 
-========Peer to Peer : many users ======== slide n°16:
+========Peer to Peer : many users ======== slide n°17:
+
 
 
 DETECTION augmentation : Screego détecte l'augmentation de la charge visuelle et donc le dénit de donées peut augmenter.
@@ -198,4 +238,3 @@ On pense que de manière générale dans un système peer to peer il peut quand 
 Mais Screego n'implémente pas ce genre de comportement, enfin nous avons rien remarqué de tel. 
 
 
-Est ce que Screego fonctionne comme dans la slide n°17 ?
