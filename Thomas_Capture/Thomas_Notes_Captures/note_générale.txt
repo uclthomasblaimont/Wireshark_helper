@@ -233,8 +233,8 @@ mais cela amène à plus de pertes et de doublons .
 
 
 Mech Networking ? : Alors au début nous avons cru que Screego suivait le principe du réseau maillé , eh bien non car dans un réseau maillé ,chaque noeud a la capacité de relayer le trafic pour tous les autres une graphe entièrement connecté.
-On pense que de manière générale dans un système peer to peer il peut quand même avoir un système de mech networking sauf qu'il y a une hiérarchie c est le client qui démarre le streaming.
-/*monter la slide n°17 et expliquer*/
-Mais Screego n'implémente pas ce genre de comportement, enfin nous avons rien remarqué de tel. 
+Par exemple voici un mech networking qui allège le flux de données.  Nous avons Bob qui envoie des données à Alice , et ensuite Terrence rejoint l'appel , bob envoie une partie  des données à terrence , mais puisqu'alice a déjà reçu des autres données que terrence n'a pas alors elle peut les envoyer. Terrence peut faire la même chose pour Alice.
+"Cependant dans notre Screego , cela ne fonctionne pas comme ça , c est vraiment une architecture peer to peer ; avec un "noeud central" et des pairs autour de ce noeud en question donc Screego n'implémente pas de mech networking. Pourtant cela peut fonctionner avec mech networking local. A -> C -> B"
+
 
 
